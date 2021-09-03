@@ -1,0 +1,50 @@
+version: "3.9"                            # version de docker-compose
+services:                                 # por cada servicio hay una aplicación en un container
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    networks:                             # se puede especificar la conexión de red segura entre los contenedores
+      - app-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+  app:
+    build: ./app                          # se especifica la ubicación del Dockerfile
+    command: yarn postbuild                # se puede incluir un comando cuando se inicializa el container    
+    volumes:                              # se mapean archivos del host al contenedor / similar a COPY en Dockerfile
+      - ./app:/app
+      - /app/node_modules
+    networks:                             # se puede especificar la conexión de red segura entre los contenedores
+      - app-network
+    depends_on:
+      - postgres
+
+  nginx:
+    image: nginx:latest                  # Se hace pull de la imagen de nginx desde dockerhub / same as From <algo> in dockerfile
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+    ports:
+      - 80:80
+      - 443:443 # puerto del host al container
+    depends_on:                           # primero debe levantarse el contenedor api para levantar el contenedor nginx
+      - app
+    networks:                 
+      - app-network
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+
+
+networks:                                 # Se generan las dependencia para establecer la red
+  app-network:
+    driver: bridge

@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-semibold"> Productos </h1>
+
+<div class="flex flex-wrap justify-center gap-4">
+    <% productos.forEach(element => { %>
+        <div class="shadow-md px-3 py-2 lg:w-4/5 w-full">
+            <h1 class="text-xl font-bold w-full text-center">
+                <%= element.name %> 
+            </h1>
+            
+            <div class="flex justify-center w-full">
+                <div class="flex flex-wrap justify-center">
+                    <a href="<%= paths.solicitudesNewPath(element.id) %>" class="w-full my-2  bg-green-600 hover:bg-green-500 py-2 px-4 md:mx-2 text-white rounded-sm">
+                        Enviar solicitud de Compra / Venta
+                    </a>
+    
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+    <% }) %>
+</div>

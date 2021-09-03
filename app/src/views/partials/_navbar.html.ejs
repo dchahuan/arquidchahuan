@@ -1,0 +1,36 @@
+<nav class = "flex h-full justify-between items-center py-2 sm:container sm:mx-auto">
+    <div class="text-2xl tracking-wide">
+        <a href="/" class="p-2 rounded hover:bg-purple-500">Entrega 0</a>
+    </div>
+
+    <ul class="flex px-3">
+        <% if (locals.currentUser) { %>
+            <li>
+                <a href="<%= paths.productIndexPath() %>" class="text-lg p-2 rounded hover:bg-purple-500">Market</a>
+            </li>
+            <li>
+                <a href="<%= paths.solicitudesShowPath() %>" class="text-lg p-2 rounded hover:bg-purple-500">Solicitudes</a>
+            </li>
+            <li>
+                <a href="<%= paths.userMePath() %>" class="text-lg p-2 rounded hover:bg-purple-500">Profile</a>
+            </li>
+            <li>
+                <form action="<%= paths.sessionDeletePath() %>" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="text-lg m-0 rounded hover:bg-purple-500">Logout</button>
+                </form>
+                
+            </li>
+        <% } else { %>
+            <li>
+                <a href="<%= paths.userNewPath() %>" class="text-lg p-2 rounded hover:bg-purple-500">Register</a>
+            </li>
+    
+            <li>
+                <a href="<%= paths.sessionNewPath() %>" class="text-lg p-2 rounded hover:bg-purple-500">Login</a>
+            </li>
+        <% } %>
+        
+    </ul>
+
+</nav>
