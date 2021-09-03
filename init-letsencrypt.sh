@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(www.arquie0dchahuan.ml arquie0dchahuan.ml)
+domains=(arquie0dchahuan.ml)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="d.chahuan@uc.cl" # Adding a valid address is strongly recommended
