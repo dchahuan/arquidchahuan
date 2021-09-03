@@ -4,6 +4,9 @@ const router = new KoaRouter();
 
 router.get('session.new', '/new', (ctx) => ctx.render(
   'session/new', {
+    email: '',
+    errors: [
+    ],
   },
 ));
 
@@ -17,8 +20,12 @@ router.post('session.new', '/new', async (ctx) => {
     ctx.redirect(ctx.router.url('user.me'));
   } else {
     await ctx.render('session/new', {
-      error: 'Email y/o contraseña incorrectos',
       email,
+      errors: [
+        {
+          message: 'Email o contraseña incorrecto',
+        },
+      ],
     });
   }
 });
